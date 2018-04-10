@@ -1,8 +1,8 @@
 package com.lxm.algorithm.graph.minimumTree;
 
-import graph.matrix.Graph;
-import graph.matrix.GraphKind;
-import graph.matrix.Vertical;
+import com.lxm.algorithm.graph.matrix.Graph;
+import com.lxm.algorithm.graph.matrix.GraphKind;
+import com.lxm.algorithm.graph.matrix.Vertical;
 
 /**
  * ��������ķ�㷨������С������

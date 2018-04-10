@@ -1,8 +1,8 @@
 package com.lxm.algorithm.graph.traverse;
 
-import graph.matrix.Graph;
-import graph.matrix.GraphKind;
-import graph.matrix.NodeType;
+import com.lxm.algorithm.graph.matrix.Graph;
+import com.lxm.algorithm.graph.matrix.GraphKind;
+import com.lxm.algorithm.graph.matrix.NodeType;
 
 /**
  * ������ȱ����㷨

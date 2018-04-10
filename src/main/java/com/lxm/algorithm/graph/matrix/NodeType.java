@@ -1,6 +1,6 @@
 package com.lxm.algorithm.graph.matrix;
 
-import graph.comm.BaseNode;
+import com.lxm.algorithm.graph.comm.BaseNode;
 
 /**
  * ��

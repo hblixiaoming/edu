@@ -1,6 +1,6 @@
 package com.lxm.algorithm.graph.multipleList;
 
-import graph.comm.BaseNode;
+import com.lxm.algorithm.graph.comm.BaseNode;
 
 /**
  * ��������ݽṹ

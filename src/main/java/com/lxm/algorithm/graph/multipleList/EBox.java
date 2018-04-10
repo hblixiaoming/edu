@@ -1,6 +1,6 @@
 package com.lxm.algorithm.graph.multipleList;
 
-import graph.comm.BaseEdge;
+import com.lxm.algorithm.graph.comm.BaseEdge;
 
 /**
  * ������ʾһ����

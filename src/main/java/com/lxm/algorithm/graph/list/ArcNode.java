@@ -1,6 +1,6 @@
 package com.lxm.algorithm.graph.list;
 
-import graph.comm.BaseEdge;
+import com.lxm.algorithm.graph.comm.BaseEdge;
 
 /**
  * ����ڵ�
