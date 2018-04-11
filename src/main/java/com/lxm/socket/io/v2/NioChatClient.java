@@ -12,7 +12,7 @@ public class NioChatClient {
 
     private void init() throws Exception {
         socketChannel = SocketChannel.open();
-        socketChannel.socket().connect(new InetSocketAddress(80));
+        socketChannel.socket().connect(new InetSocketAddress(8080));
         socketChannel.configureBlocking(false);
     }
 
@@ -48,7 +48,10 @@ public class NioChatClient {
                 int count = 0;
                 //不一定一次就能读满，连续读
                 while ((count = socketChannel.read(buffer)) > 0) {
-                    buf.append(new String(buffer.array(), 0, count));
+                    buffer.flip();
+                    byte[] bytes = new byte[buffer.remaining()];
+                    buffer.get(bytes);
+                    buf.append(new String(bytes,"UTF-8"));
                 }
                 //有数据
                 if (buf.length() > 0) {

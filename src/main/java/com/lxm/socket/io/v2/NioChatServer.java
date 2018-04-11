@@ -10,7 +10,7 @@ import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 import java.util.Set;
 
-public class NioChatServer {
+public class NioChatServer implements Runnable{
     private ServerSocketChannel serverSocketChannel;
     private ServerSocket serverSocket;
     private Selector selector;
@@ -23,7 +23,7 @@ public class NioChatServer {
 
         serverSocket = serverSocketChannel.socket();
 
-        serverSocket.bind(new InetSocketAddress(80));
+        serverSocket.bind(new InetSocketAddress(8080),1024);
 
         serverSocketChannel.configureBlocking(false);
 
@@ -77,31 +77,43 @@ public class NioChatServer {
             // 将缓冲区清空以备下次读取
             receive.clear();
             // 读取服务器发送来的数据到缓冲区中
-            client.read(receive);
+            int readNum = client.read(receive);
+            if(readNum>0){
+                System.out.println(new String(receive.array()));
+                selectionKey.interestOps(SelectionKey.OP_WRITE);
 
-            System.out.println(new String(receive.array()));
-
-            selectionKey.interestOps(SelectionKey.OP_WRITE);
-
-            //selectionKey.a
-
+            }else if(readNum<0){
+                selectionKey.cancel();
+                client.close();
+            }
         } else if (selectionKey.isWritable()) {
             System.out.println("channel writable");
-
-            this.sendMsg(client, "hello you");
             // 将缓冲区清空以备下次写入
+            this.sendMsg(client, "hello you");
             selectionKey.interestOps(SelectionKey.OP_READ);
         }
     }
 
     private void sendMsg(SocketChannel socketChannel, String msg) throws Exception {
         // 发送消息到客户端
-        socketChannel.write((ByteBuffer.wrap(msg.getBytes())));
+        ByteBuffer buffer = ByteBuffer.allocate(msg.getBytes().length);
+        buffer.put(msg.getBytes());
+        socketChannel.write(buffer);
+        buffer.flip();
     }
 
     public static void main(String[] args) throws Exception {
         NioChatServer server = new NioChatServer();
         server.init();
-        server.listen();
+        new Thread(server).start();
+    }
+
+    @Override
+    public void run() {
+        try {
+            this.listen();
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
     }
 }
