@@ -17,7 +17,7 @@ public class TimerServerHandler extends ChannelHandlerAdapter {
         String body = new String(req,"UTF-8");
         System.out.println("Time Server receive message:"+body);
         ByteBuf resp = Unpooled.copiedBuffer("hello world".getBytes());
-        ctx.write(resp);
+        ctx.writeAndFlush(resp);
     }
 
     @Override
