@@ -1,4 +1,4 @@
-package com.lxm.netty.io;
+package com.lxm.netty.io.delimiter;
 
 
 import io.netty.buffer.ByteBuf;
@@ -9,10 +9,10 @@ import io.netty.channel.ChannelHandlerContext;
 public class TimeClientHandler extends ChannelHandlerAdapter {
     private ByteBuf firstMessage;
 
-    public TimeClientHandler(){
+    public TimeClientHandler() {
         byte[] req = "QUERY TIME ORDER".getBytes();
         firstMessage = Unpooled.buffer(req.length);
-        firstMessage.writeBytes(req);
+        firstMessage.writeBytes("QUERY TIME ORDER".getBytes());
     }
 
     @Override
@@ -27,10 +27,7 @@ public class TimeClientHandler extends ChannelHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        ByteBuf buf = (ByteBuf)msg;
-        byte[] req = new byte[buf.readableBytes()];
-        buf.readBytes(req);
-        String body = new String(req,"UTF-8");
-        System.out.println("now is:"+body);
+        String body = (String) msg;
+        System.out.println("now is:" + body);
     }
 }
