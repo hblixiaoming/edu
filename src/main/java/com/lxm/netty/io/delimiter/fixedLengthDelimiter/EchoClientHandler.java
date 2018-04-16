@@ -1,18 +1,17 @@
-package com.lxm.netty.io.delimiter;
-
+package com.lxm.netty.io.delimiter.fixedLengthDelimiter;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 
-public class TimeClientHandler extends ChannelHandlerAdapter {
-    private ByteBuf firstMessage;
+public class EchoClientHandler extends ChannelHandlerAdapter {
+    private int counter = 1;
+    private byte[] req;
 
-    public TimeClientHandler() {
-        byte[] req = "QUERY TIME ORDER".getBytes();
-        firstMessage = Unpooled.buffer(req.length);
-        firstMessage.writeBytes("QUERY TIME ORDER".getBytes());
+
+    public EchoClientHandler() {
+        req = ("QUERY TIME ORDER").getBytes();
     }
 
     @Override
@@ -22,12 +21,17 @@ public class TimeClientHandler extends ChannelHandlerAdapter {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        ctx.writeAndFlush(firstMessage);
+        ByteBuf messsage = null;
+        for (int i = 0; i < 100; i++) {
+            messsage = Unpooled.buffer(req.length);
+            messsage.writeBytes(req);
+            ctx.writeAndFlush(messsage);
+        }
     }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         String body = (String) msg;
-        System.out.println("now is:" + body);
+        System.out.println("Now is:" + body + ";zhe counter is:" + counter++);
     }
 }
