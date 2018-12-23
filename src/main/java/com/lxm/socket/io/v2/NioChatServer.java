@@ -10,7 +10,7 @@ import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 import java.util.Set;
 
-public class NioChatServer implements Runnable{
+public class NioChatServer implements Runnable {
     private ServerSocketChannel serverSocketChannel;
     private ServerSocket serverSocket;
     private Selector selector;
@@ -23,7 +23,7 @@ public class NioChatServer implements Runnable{
 
         serverSocket = serverSocketChannel.socket();
 
-        serverSocket.bind(new InetSocketAddress(8080),1024);
+        serverSocket.bind(new InetSocketAddress(8080), 1024);
 
         serverSocketChannel.configureBlocking(false);
 
@@ -78,11 +78,11 @@ public class NioChatServer implements Runnable{
             receive.clear();
             // 读取服务器发送来的数据到缓冲区中
             int readNum = client.read(receive);
-            if(readNum>0){
-                System.out.println(new String(receive.array()));
+            if (readNum > 0) {
+                System.out.println("server receive msg:" + new String(receive.array()));
                 selectionKey.interestOps(SelectionKey.OP_WRITE);
 
-            }else if(readNum<0){
+            } else if (readNum < 0) {
                 selectionKey.cancel();
                 client.close();
             }
@@ -112,7 +112,7 @@ public class NioChatServer implements Runnable{
     public void run() {
         try {
             this.listen();
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
