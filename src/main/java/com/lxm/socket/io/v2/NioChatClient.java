@@ -90,6 +90,9 @@ public class NioChatClient implements Runnable {
         sendBuf.clear();
         Scanner scanner = new Scanner(System.in);
         String message = scanner.nextLine();
+        if(message.equals("quit")){
+            System.exit(-1);
+        }
         sendBuf.put(message.getBytes());
         sendBuf.flip();
         socketChannel.write(sendBuf);
