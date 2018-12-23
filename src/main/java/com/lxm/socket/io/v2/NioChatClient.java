@@ -1,21 +1,18 @@
 package com.lxm.socket.io.v2;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
+import java.util.Scanner;
 import java.util.Set;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class NioChatClient implements Runnable {
     private SocketChannel socketChannel;
     private Selector selector;
-    private ConcurrentLinkedQueue<String> buffedQueue;
+    private ByteBuffer sendBuf = ByteBuffer.allocate(1024);
 
     private void init() throws Exception {
         System.out.println("connecting server ...");
@@ -24,7 +21,6 @@ public class NioChatClient implements Runnable {
         selector = Selector.open();
         socketChannel.register(selector, SelectionKey.OP_CONNECT);
         socketChannel.connect(new InetSocketAddress(8080));
-        this.buffedQueue = new ConcurrentLinkedQueue<String>();
     }
 
     private void listen() throws Exception {
@@ -57,6 +53,7 @@ public class NioChatClient implements Runnable {
             socketChannel = (SocketChannel) selectionKey.channel();
             if (socketChannel.isConnectionPending()) {
                 socketChannel.finishConnect();
+                socketChannel.configureBlocking(false);
                 System.out.println("server connecting ok");
                 socketChannel.register(selector, SelectionKey.OP_WRITE);
             }
@@ -76,13 +73,6 @@ public class NioChatClient implements Runnable {
         client.init();
         Thread thread = new Thread(client);
         thread.start();
-
-        BufferedReader re = new BufferedReader(new InputStreamReader(System.in));
-        String msg2;
-        while ((msg2 = re.readLine()) != null) {
-            client.buffedQueue.offer(msg2);
-            System.out.println("inset msg:" + msg2);
-        }
     }
 
     private void readMsg(SocketChannel socketChannel) throws Exception {
@@ -97,19 +87,11 @@ public class NioChatClient implements Runnable {
     }
 
     private void writeMsg(SocketChannel socketChannel) throws Exception {
-//        String msg;
-//        while ((msg = buffedQueue.poll()) != null) {
-//            ByteBuffer buffer = ByteBuffer.allocate(msg.getBytes().length);
-//            buffer.put(msg.getBytes());
-//            socketChannel.write(buffer);
-//            buffer.flip();
-//        }
-        String msg = "hello server";
-
-            ByteBuffer buffer = ByteBuffer.allocate(msg.getBytes().length);
-            buffer.put(msg.getBytes());
-            socketChannel.write(buffer);
-//            buffer.flip();
-//        }
+        sendBuf.clear();
+        Scanner scanner = new Scanner(System.in);
+        String message = scanner.nextLine();
+        sendBuf.put(message.getBytes());
+        sendBuf.flip();
+        socketChannel.write(sendBuf);
     }
 }

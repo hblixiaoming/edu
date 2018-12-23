@@ -36,7 +36,7 @@ public class NioChatServer implements Runnable {
         while (true) {
             int count = selector.select();
 
-            System.out.println("ready channel num=" + count);
+            //System.out.println("ready channel num=" + count);
             Set<SelectionKey> selectionKeys = selector.selectedKeys();
 
             Iterator<SelectionKey> iterator = selectionKeys.iterator();
@@ -54,7 +54,7 @@ public class NioChatServer implements Runnable {
     private void handle(SelectionKey selectionKey) throws Exception {
         //if one channel connected
         if (selectionKey.isAcceptable()) {
-            System.out.println("channel acceptable");
+            //System.out.println("channel acceptable");
             // 返回为之创建此键的通道。
             serverSocketChannel = (ServerSocketChannel) selectionKey.channel();
 
@@ -68,7 +68,7 @@ public class NioChatServer implements Runnable {
 
             //if zhe channel can read
         } else if (selectionKey.isReadable()) {
-            System.out.println("channel readable");
+            //System.out.println("channel readable");
             // 返回为之创建此键的通道。
             client = (SocketChannel) selectionKey.channel();
 
@@ -87,9 +87,9 @@ public class NioChatServer implements Runnable {
                 client.close();
             }
         } else if (selectionKey.isWritable()) {
-            System.out.println("channel writable");
+            //System.out.println("channel writable");
             // 将缓冲区清空以备下次写入
-            this.sendMsg(client, "hello you");
+            this.sendMsg(client, "hello client");
             selectionKey.interestOps(SelectionKey.OP_READ);
         }
     }
@@ -98,8 +98,8 @@ public class NioChatServer implements Runnable {
         // 发送消息到客户端
         ByteBuffer buffer = ByteBuffer.allocate(msg.getBytes().length);
         buffer.put(msg.getBytes());
-        socketChannel.write(buffer);
         buffer.flip();
+        socketChannel.write(buffer);
     }
 
     public static void main(String[] args) throws Exception {
