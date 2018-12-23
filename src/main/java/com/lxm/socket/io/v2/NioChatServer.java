@@ -80,6 +80,7 @@ public class NioChatServer implements Runnable {
             int readNum = client.read(receive);
             if (readNum > 0) {
                 System.out.println("server receive msg:" + new String(receive.array()));
+                selectionKey.attach(new String(receive.array()));
                 selectionKey.interestOps(SelectionKey.OP_WRITE);
 
             } else if (readNum < 0) {
@@ -89,7 +90,10 @@ public class NioChatServer implements Runnable {
         } else if (selectionKey.isWritable()) {
             //System.out.println("channel writable");
             // 将缓冲区清空以备下次写入
-            this.sendMsg(client, "hello client");
+            String msg = (String)selectionKey.attachment();
+            if(msg != null){
+                this.sendMsg(client, msg);
+            }
             selectionKey.interestOps(SelectionKey.OP_READ);
         }
     }
