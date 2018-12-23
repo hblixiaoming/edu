@@ -42,11 +42,11 @@ public class ChatServer {
             try {
                 reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 StringBuilder msg = new StringBuilder();
-                msg.append("【");
+                msg.append("[");
                 msg.append("client");
                 msg.append(":");
                 msg.append(socket.getPort());
-                msg.append("】");
+                msg.append("]");
                 String temp;
                 while ((temp = reader.readLine()) != null) {
                     System.out.println(temp);
