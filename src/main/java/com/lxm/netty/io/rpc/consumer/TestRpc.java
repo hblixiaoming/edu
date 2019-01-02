@@ -7,7 +7,7 @@ import java.lang.reflect.Proxy;
 public class TestRpc {
     public static void main(String[] args) {
         RemoteServer server = (RemoteServer) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
-                new Class[]{RemoteServer.class}, new RpcNettyClient());
+                new Class[]{RemoteServer.class}, new RpcInvocationHandler());
         String result = server.hello("zhangsan");
         System.out.println(result);
     }
