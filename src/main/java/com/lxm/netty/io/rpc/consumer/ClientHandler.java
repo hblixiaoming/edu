@@ -28,7 +28,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<String> implement
         return result;
     }
 
-    public void setParam(String param) {
+    public synchronized void setParam(String param) {
         this.param = param;
     }
 }
