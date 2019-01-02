@@ -9,7 +9,7 @@ import java.util.Iterator;
 import java.util.Scanner;
 import java.util.Set;
 
-public class NioChatClient implements Runnable {
+public class NioEchoClient implements Runnable {
     private SocketChannel socketChannel;
     private Selector selector;
     private ByteBuffer sendBuf = ByteBuffer.allocate(1024);
@@ -69,7 +69,7 @@ public class NioChatClient implements Runnable {
     }
 
     public static void main(String[] args) throws Exception {
-        NioChatClient client = new NioChatClient();
+        NioEchoClient client = new NioEchoClient();
         client.init();
         Thread thread = new Thread(client);
         thread.start();

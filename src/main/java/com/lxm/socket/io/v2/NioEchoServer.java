@@ -10,7 +10,7 @@ import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 import java.util.Set;
 
-public class NioChatServer implements Runnable {
+public class NioEchoServer implements Runnable {
     private ServerSocketChannel serverSocketChannel;
     private ServerSocket serverSocket;
     private Selector selector;
@@ -107,7 +107,7 @@ public class NioChatServer implements Runnable {
     }
 
     public static void main(String[] args) throws Exception {
-        NioChatServer server = new NioChatServer();
+        NioEchoServer server = new NioEchoServer();
         server.init();
         new Thread(server).start();
     }
