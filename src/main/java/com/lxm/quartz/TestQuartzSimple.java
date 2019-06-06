@@ -24,15 +24,15 @@ public class TestQuartzSimple {
                     .startNow().build();
 
             // 把作业和触发器注册到任务调度中
-            //scheduler.scheduleJob(job, trigger);
+            scheduler.scheduleJob(job, trigger);
 
             // 启动调度
             scheduler.start();
 
-            //Thread.sleep(10000);
+            Thread.sleep(10000);
 
             // 停止调度
-            //scheduler.shutdown();
+            scheduler.shutdown();
 
         } catch (Exception ex) {
             ex.printStackTrace();
