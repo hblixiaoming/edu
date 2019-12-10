@@ -1,4 +1,6 @@
-package com.lxm.proxy.autoProxy;
+package com.lxm.proxy.autoProxy.jdk;
+
+import com.lxm.proxy.autoProxy.jdk.MonitorUtil;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

@@ -1,4 +1,6 @@
-package com.lxm.proxy.autoProxy;
+package com.lxm.proxy.autoProxy.jdk;
+
+import com.lxm.proxy.autoProxy.jdk.Person;
 
 public class Student implements Person {
     private String name;
