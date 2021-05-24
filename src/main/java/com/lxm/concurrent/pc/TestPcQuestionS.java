@@ -80,13 +80,13 @@ public class TestPcQuestionS {
     }
 
     public static void main(String[] args) {
-        Integer plate = new Integer(0);
+        Integer plate = new Integer(1);
         TestPcQuestionS test = new TestPcQuestionS(plate);
-        for (int i = 0; i < 10; i++) {
-            new Thread(test.new Producer(plate), "producer thread").start();
+        for (int i = 0; i < 5; i++) {
+            new Thread(test.new Producer(plate), "producer thread-" + i).start();
         }
-        for (int i = 0; i < 10; i++) {
-            new Thread(test.new Consumer(plate), "consumer thread").start();
+        for (int i = 0; i < 5; i++) {
+            new Thread(test.new Consumer(plate), "consumer thread-" + i).start();
         }
     }
 }
