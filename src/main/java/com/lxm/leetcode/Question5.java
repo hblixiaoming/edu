@@ -29,6 +29,11 @@ package com.lxm.leetcode;
  */
 public class Question5 {
 
+    /**
+     * 暴力破解法从最长的子串开始依次判断是否是回文子串直到找到一个合适的为止
+     * @param s
+     * @return
+     */
     public String solution1(String s) {
         if (s.length() == 1) {
             return s;
