@@ -43,7 +43,7 @@ public class Question226 {
      * }
      * }
      */
-    public TreeNode invertTree(TreeNode root) {
+    public TreeNode invertTreeBFS(TreeNode root) {
         if (root == null) {
             return null;
         }
@@ -61,6 +61,23 @@ public class Question226 {
             if (rc != null) {
                 queue.offer(rc);
             }
+        }
+        return root;
+    }
+
+    public TreeNode invertTreeDFS(TreeNode root) {
+        if (root == null) {
+            return null;
+        }
+        TreeNode lc = root.left;
+        TreeNode rc = root.right;
+        root.left = rc;
+        root.right = lc;
+        if (lc != null) {
+            invertTreeDFS(lc);
+        }
+        if (rc != null) {
+            invertTreeDFS(rc);
         }
         return root;
     }
