@@ -1,5 +1,8 @@
 package com.lxm.leetcode;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 给你一个字符串 s 、一个字符串 t 。返回 s 中涵盖 t 所有字符的最小子串。如果 s 中不存在涵盖 t 所有字符的子串，则返回空字符串 "" 。
  *
@@ -22,22 +25,29 @@ package com.lxm.leetcode;
  */
 public class Question76 {
     public String minWindow(String s, String t) {
+        Map<Character, Integer> map = new HashMap<>(t.length());
         int l = 0, h = 0;
         for (int i = 0, j = 0; i < j && j < s.length(); ) {
             char c = s.charAt(j);
             int k = 0;
             for (; k < t.length(); k++) {
                 if (t.charAt(k) == c) {
+                    map.put(c, j);
                     break;
                 }
             }
-            if (k < t.length()) {
-                j++;
+            if (k < t.length() && map.size() == t.length()) {
+
             } else {
-                i++;
                 j++;
             }
         }
         return s;
+    }
+
+    private Integer getMinIdx(Map<Character, Integer> map){
+        int min = Integer.MAX_VALUE;
+        //for(Integer )
+        return 0;
     }
 }
