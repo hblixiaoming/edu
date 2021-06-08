@@ -71,6 +71,7 @@ public class Question116 {
 
     /**
      * 一次同层全部出队列版
+     *
      * @param root
      * @return
      */
@@ -104,6 +105,7 @@ public class Question116 {
 
     /**
      * 官方版
+     *
      * @param root
      * @return
      */
@@ -145,6 +147,36 @@ public class Question116 {
         // 返回根节点
         return root;
     }
+
+    /**
+     * 递归实现版
+     * @param root
+     * @return
+     */
+    public Node connect3(Node root) {
+        if (root == null) {
+            return root;
+        }
+        connectDFS(root, null);
+        return root;
+    }
+
+    public void connectDFS(Node n, Node p) {
+        if (n == null) {
+            return;
+        }
+        if (p != null) {
+            if (n == p.left) {
+                n.next = p.right;
+            }
+            if (n == p.right && p.next != null) {
+                n.next = p.next.left;
+            }
+        }
+        connectDFS(n.left, n);
+        connectDFS(n.right, n);
+    }
+
 
     public static void main(String[] args) {
         Node node4 = new Node(4, null, null, null);
