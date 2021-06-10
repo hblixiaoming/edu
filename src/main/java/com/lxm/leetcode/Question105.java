@@ -42,11 +42,17 @@ public class Question105 {
         }
         int i = 0;
         int j = 0;
+        boolean flag = false;
         for (; i < preorder.length; i++) {
+            j = 0;
             for (; j < inorder.length; j++) {
-                if (preorder[i] == preorder[j]) {
+                if (preorder[i] == inorder[j]) {
+                    flag = true;
                     break;
                 }
+            }
+            if (flag) {
+                break;
             }
         }
         if (j < preorder.length && j < inorder.length) {
@@ -60,6 +66,14 @@ public class Question105 {
             return root;
         }
         return null;
+    }
+
+    public static void main(String[] args) {
+        Question105 question105 = new Question105();
+        int[] preorder = new int[]{1, 2, 4, 5, 3, 6, 7};
+        int[] inorder = new int[]{4, 2, 5, 1, 6, 3, 7};
+        TreeNode treeNode = question105.buildTree(preorder, inorder);
+        System.out.println(treeNode);
     }
 
     static class TreeNode {
