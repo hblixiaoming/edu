@@ -40,15 +40,38 @@ public class Question105 {
         if (preorder.length == 0 || inorder.length == 0) {
             return null;
         }
-        int i = 0;
+        return build(0, preorder, inorder);
+    }
+
+    private TreeNode build(int startPos, int[] preorder, int[] inorder) {
+        if (preorder.length == 0 || inorder.length == 0) {
+            return null;
+        }
+        int i = startPos;
         int j = 0;
         boolean flag = false;
         for (; i < preorder.length; i++) {
-            j = 0;
-            for (; j < inorder.length; j++) {
-                if (preorder[i] == inorder[j]) {
-                    flag = true;
-                    break;
+            int mid = inorder.length / 2;
+            int low = mid;
+            int high = mid + 1;
+            while (low >= 0 || high <= inorder.length) {
+                if (low >= 0) {
+                    if (preorder[i] == inorder[low]) {
+                        flag = true;
+                        j = mid;
+                        break;
+                    } else {
+                        low--;
+                    }
+                }
+                if (high < inorder.length) {
+                    if (preorder[i] == inorder[high]) {
+                        flag = true;
+                        j = high;
+                        break;
+                    } else {
+                        high--;
+                    }
                 }
             }
             if (flag) {
@@ -61,8 +84,8 @@ public class Question105 {
             System.arraycopy(inorder, 0, left, 0, j);
             int[] right = new int[inorder.length - 1 - j];
             System.arraycopy(inorder, j + 1, right, 0, inorder.length - 1 - j);
-            root.left = buildTree(preorder, left);
-            root.right = buildTree(preorder, right);
+            root.left = build(i + 1, preorder, left);
+            root.right = build(i + 1, preorder, right);
             return root;
         }
         return null;
