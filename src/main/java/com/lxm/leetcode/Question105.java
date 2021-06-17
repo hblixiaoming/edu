@@ -1,5 +1,8 @@
 package com.lxm.leetcode;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 根据一棵树的前序遍历与中序遍历构造二叉树。
  * <p>
@@ -40,52 +43,25 @@ public class Question105 {
         if (preorder.length == 0 || inorder.length == 0) {
             return null;
         }
-        return build(0, preorder, inorder);
-    }
-
-    private TreeNode build(int startPos, int[] preorder, int[] inorder) {
-        if (preorder.length == 0 || inorder.length == 0) {
-            return null;
+        Map<Integer, Integer> map = new HashMap<>(inorder.length);
+        for (int i = 0; i < inorder.length; i++) {
+            map.put(inorder[i], i);
         }
-        int i = startPos;
-        int j = 0;
-        boolean flag = false;
-        for (; i < preorder.length; i++) {
-            int mid = inorder.length / 2;
-            int low = mid;
-            int high = mid + 1;
-            while (low >= 0 || high <= inorder.length) {
-                if (low >= 0) {
-                    if (preorder[i] == inorder[low]) {
-                        flag = true;
-                        j = mid;
-                        break;
-                    } else {
-                        low--;
-                    }
-                }
-                if (high < inorder.length) {
-                    if (preorder[i] == inorder[high]) {
-                        flag = true;
-                        j = high;
-                        break;
-                    } else {
-                        high--;
-                    }
-                }
-            }
-            if (flag) {
+        int pPos = 0;
+        Integer iPos = null;
+        for (; pPos < preorder.length; pPos++) {
+            if ((iPos = map.get(preorder[pPos])) != null) {
                 break;
             }
         }
-        if (j < preorder.length && j < inorder.length) {
-            TreeNode root = new TreeNode(preorder[i]);
-            int[] left = new int[j];
-            System.arraycopy(inorder, 0, left, 0, j);
-            int[] right = new int[inorder.length - 1 - j];
-            System.arraycopy(inorder, j + 1, right, 0, inorder.length - 1 - j);
-            root.left = build(i + 1, preorder, left);
-            root.right = build(i + 1, preorder, right);
+        if (iPos < inorder.length) {
+            TreeNode root = new TreeNode(preorder[pPos]);
+            int[] left = new int[iPos];
+            System.arraycopy(inorder, 0, left, 0, iPos);
+            int[] right = new int[inorder.length - 1 - iPos];
+            System.arraycopy(inorder, iPos + 1, right, 0, inorder.length - 1 - iPos);
+            root.left = buildTree(preorder, left);
+            root.right = buildTree(preorder, right);
             return root;
         }
         return null;
